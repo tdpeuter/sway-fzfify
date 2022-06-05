@@ -84,8 +84,7 @@ if [[ -z "${selection}" ]] ; then
     
     # Execute the given command (this is assumed).
     else
-        # TODO Fix this.
-        setsid $SHELL -c "${action}"
+        setsid --fork $SHELL -c "alacritty -e ${action}"
     fi
 fi
 
