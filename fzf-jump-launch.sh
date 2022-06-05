@@ -32,7 +32,7 @@ stripper() {
 # =========
 
 list=/tmp/fzf-jump.txt
-touch "${destination}"
+touch "${list}"
 hist=/tmp/fzf-jump-hist.txt
 
 # ====
@@ -54,13 +54,14 @@ selection=$( cat ${list} \
           --cycle \
           --bind "change:reload(cat ${list} | cut -f1 -d';')"
 )
-selection=$( echo "${selection}" | xargs echo -n )
+selection=$( echo -n "${selection}" )
 
 # Special actions if nothing selected, read input.
 if [[ -z "${selection}" ]] ; then 
     ((elapsedSeconds = $(date +%s) - $(date +%s -r "${hist}") ))
     if [[ ${elapsedSeconds} -gt 2 ]] ; then 
-        break
+        rm ${list}
+        exit
     fi
 
     action=$( tail -n 1 "${hist}" )
@@ -84,13 +85,13 @@ if [[ -z "${selection}" ]] ; then
     # Execute the given command (this is assumed).
     else
         # TODO Fix this.
-        alacritty -e "${action}"
+        setsid $SHELL -c "${action}"
     fi
-else
-    ex=$(stripper "$(grep "^${selection};.*$" "${list}" | cut --complement -f1 -d';')")
-
-    # Execute the command.
-    setsid --fork $SHELL -c "${ex}" &> /dev/null
 fi
+
+ex=$(stripper "$(grep "^${selection};.*$" "${list}" | cut --complement -f1 -d';')")
+
+# Execute the command.
+setsid --fork $SHELL -c "${ex}" &> /dev/null
 
 rm ${list}
