@@ -1,4 +1,17 @@
-# SWAY-FZFIFY
+# FZF-JUMP
+
+## Forked changes
+
+I adapted the project to include a window that has everything you need, so you can call it with a single keybind. 
+
+Currently supports: 
+
+- sway-tree-switcher
+- sway-window-move
+- sway-workspace-move
+- sway-dmenu
+
+## SWAY-FZIFY README.md
 
 Here are a series of scripts which FZFify your sway desktop. 
 
