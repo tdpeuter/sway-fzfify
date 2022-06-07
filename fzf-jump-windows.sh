@@ -10,7 +10,7 @@ windows=$( swaymsg -t get_tree \
     | jq -r "recurse(.nodes[]?) \
         | recurse(.floating_nodes[]?) \
         | select(.type==\"con\"), select(.type==\"floating_con\") \
-        | select((.app_id != null) or .name != null) \
+        | select((.app_id != null or .name != null) and .name != \"FZF-Jump\") \
         | {id, app_id, name} \
         | .id, .app_id, .name" \
     | tr "\n" ";" \
@@ -24,7 +24,7 @@ while read line ; do
     name=" ($( cut -f3 -d';' <<< "${line}" ))"
 
     # Filter empty fields \uf2d0
-    str="_WI${app#' $'}${name#' ()'}"
+    str="_WI${name#' ()'}${app#' $'}"
 
     echo "${str};swaymsg \"[con_id=${id}]\" focus" >> "${destination}"
 done <<< "${windows}"
