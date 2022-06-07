@@ -4,12 +4,13 @@
 
 I adapted the project to include a window that has everything you need, so you can call it with a single keybind. 
 
-Currently supports: 
+Features: 
 
+- sway-rename
 - sway-tree-switcher
 - sway-window-move
-- sway-workspace-move
 - sway-dmenu
+- Execute shell commands in a temporary terminal, almost like a dropdown-terminal. 
 
 ## SWAY-FZIFY README.md
 
