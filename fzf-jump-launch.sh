@@ -35,6 +35,9 @@ list=/tmp/fzf-jump.txt
 touch "${list}"
 hist=/tmp/fzf-jump-hist.txt
 
+prefix=':'
+suffix=' '
+    
 # ====
 # Init
 # ====
@@ -52,12 +55,18 @@ selection=$( cat ${list} \
     | cut -f1 -d';' \
     | fzf --history=${hist} \
           --cycle \
-          --bind "change:reload(cat ${list} | cut -f1 -d';')"
+          --bind "change:reload(cat ${list} | cut -f1 -d';')" \
+          --border=sharp \
+          --header="Syntaxis: \"${prefix}[rm]${suffix}<arg>\"" \
+          --header-first \
+          --layout="reverse"
 )
 selection=$( echo -n "${selection}" )
 
-# Special actions if nothing selected, read input.
+# Check if a non-matching argument was given. 
 if [[ -z "${selection}" ]] ; then 
+    
+    # No new write -> no command (exited without asking anything).
     ((elapsedSeconds = $(date +%s) - $(date +%s -r "${hist}") ))
     if [[ ${elapsedSeconds} -gt 2 ]] ; then 
         rm ${list}
@@ -66,24 +75,22 @@ if [[ -z "${selection}" ]] ; then
 
     action=$( tail -n 1 "${hist}" )
 
-    prefix=''
-    suffix='! '
-    
     # Move to new workspace.
-    if [[ "${action}" =~ ^${prefix}GT${suffix} ]] ; then
-        name=${action#"${prefix}GT${suffix}"}
+    if [[ "${action}" =~ ^${prefix}[mM]${suffix} ]] ; then
+        name=$( sed "s/^${prefix}[mM]${suffix}//" <<< "${action}" )
         swaymsg focus tiling
         swaymsg move window to workspace "${name}"
         swaymsg workspace "${name}"
     
     # Rename workspace
-    elif [[ "${action}" =~ ^${prefix}R${suffix} ]] ; then 
-        name=${action#"${prefix}R${suffix}"}
+    elif [[ "${action}" =~ ^${prefix}[rR]${suffix} ]] ; then 
+        name=$( sed "s/^${prefix}[rR]${suffix}//" <<< "${action}")
         swaymsg rename workspace to "${name}"
         ~/.scripts/notify.sh -t 1000 "${name}" "Switched workspaces"
     
-    # Execute the given command (this is assumed).
-    else
+    # Execute the given command.
+    elif [[ "${action}" =~ ^${prefix}${suffix} ]] ; then 
+        action=${action#"${prefix}${suffix}"}
         setsid --fork $SHELL -c "alacritty -e ${action}"
     fi
 fi
