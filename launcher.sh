@@ -42,9 +42,9 @@ suffix=' '
 # Init
 # ====
 
-setsid --fork $SHELL -c "$(dirname $0)/fzf-jump-apps.sh ${list}"
-setsid --fork $SHELL -c "$(dirname $0)/fzf-jump-windows.sh ${list}"
-setsid --fork $SHELL -c "$(dirname $0)/fzf-jump-workspaces.sh ${list}"
+setsid --fork $SHELL -c "$(dirname $0)/modules/apps.sh >> ${list}"
+setsid --fork $SHELL -c "$(dirname $0)/modules/windows.sh >> ${list}"
+setsid --fork $SHELL -c "$(dirname $0)/modules/workspaces.sh >> ${list}"
 
 # ===============
 # FZF and execute

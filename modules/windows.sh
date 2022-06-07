@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# Write available windows to a file.
-# Syntaxis: windows <filename>
-
-destination="${1:-/tmp/fzf-jump.txt}"
-touch "${destination}"
+# List available windows.
+# Just run the script
 
 # Extract id, application name and title from swaytree.
 windows=$( swaymsg -t get_tree \
@@ -26,5 +23,5 @@ while read line ; do
     # Filter empty fields \uf2d0
     str="_WI${name#' ()'}${app#' $'}"
 
-    echo "${str};swaymsg \"[con_id=${id}]\" focus" >> "${destination}"
+    echo "${str};swaymsg \"[con_id=${id}]\" focus"
 done <<< "${windows}"

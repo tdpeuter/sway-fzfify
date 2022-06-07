@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# Write available applications to a file.
-# Syntaxis: apps <filename>
-
-destination="${1:-/tmp/fzf-jump.txt}"
-touch "${destination}"
+# List available applications.
+# Just run the script
 
 # Commaseparated list of directories
 supported_dirs=~/.local/share/applications,/usr/share/applications
@@ -21,7 +18,6 @@ for file in ${list} ; do
         Terminal=$( grep -m1 "^Terminal=" "${file}" \
             | grep -o 'true' \
             | sed "s/true/alacritty -e /" )
-        echo "${Name#*=};${Terminal}${Exec#*=}" >> "${destination}"
+        echo "${Name#*=};${Terminal}${Exec#*=}"
     fi
-
 done
