@@ -2,7 +2,9 @@
 
 ## Forked changes
 
-I adapted the project to include a window that has everything you need, so you can call it with a single keybind. 
+Reused the scripts and techniques used in the original project. Other than that, most stuff is new.
+
+There is a launcher that has special stuff, so you can call it with a single keybind. There are several modules you can call into a launcher. This is basically a dmenu using FZF with your own modules.
 
 Features: 
 
@@ -11,6 +13,7 @@ Features:
 - sway-window-move
 - sway-dmenu
 - Execute shell commands in a temporary terminal, almost like a dropdown-terminal. 
+- Bluetooth manager
 
 ## SWAY-FZIFY README.md
 
