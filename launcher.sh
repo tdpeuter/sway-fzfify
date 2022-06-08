@@ -42,9 +42,10 @@ suffix=' '
 # Init
 # ====
 
-setsid --fork $SHELL -c "$(dirname $0)/modules/apps.sh >> ${list}"
-setsid --fork $SHELL -c "$(dirname $0)/modules/windows.sh >> ${list}"
-setsid --fork $SHELL -c "$(dirname $0)/modules/workspaces.sh >> ${list}"
+# Load all modules.
+while read line ; do
+    setsid --fork $SHELL -c "${line} >> ${list}"
+done <<< $( find "$(dirname $0)/modules" -name "*.sh" )
 
 # ===============
 # FZF and execute
