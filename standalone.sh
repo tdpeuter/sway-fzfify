@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This is a standalone launcher
+# This launcher launches specified modules
 # Syntaxis: standalone {modules seperated by space}
 
 while [[ $# -gt 0 ]] ; do
@@ -7,7 +7,7 @@ while [[ $# -gt 0 ]] ; do
         "$1 does not exist or is unreadable"    
         exit 1
     fi
-    list+="$($1)"
+    list+="$(setsid --fork $SHELL $1)"
     shift
 
     # If there is a next script to run, add newline.
