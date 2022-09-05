@@ -20,4 +20,4 @@ if [[ $( wc -l <<< "${info}" ) != 1 ]] ; then
 fi
 
 # List paired devices
-sed "s/^[^ ]* \([^ ]*\) \(.*\)$/Connect to \2;bluetoothctl connect \1/g" <<< $(bluetoothctl paired-devices)
+sed "s/^[^ ]* \([^ ]*\) \(.*\)$/Connect to \2;bluetoothctl connect \1/g" <<< $(bluetoothctl devices)
